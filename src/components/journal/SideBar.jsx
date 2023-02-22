@@ -14,7 +14,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
       >
         <Toolbar>
           <Typography variant='h6' noWrap component='div' >
-            Diario
+            Renato Soca
           </Typography>
         </Toolbar>
 
