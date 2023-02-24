@@ -5,11 +5,14 @@ import { AuthRoutes, JournalRoutes } from './';
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* Publica // Faltab Terminar // */}
+      <Route path='/*' element={ <JournalRoutes /> } />
+
       {/* Login y Register */}
       <Route path='/auth/*' element={ <AuthRoutes /> } />
       
-      {/* Principal */}
-      <Route path='/*' element={ <JournalRoutes /> } />
+      {/* Privada */}
+      <Route path='/journal/*' element={ <JournalRoutes /> } />
     </Routes>
   )
 }

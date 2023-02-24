@@ -10,7 +10,7 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
 
   const isFormValid = useMemo( () => {
     return Object.keys( formValidation ).every( key => formValidation[key] === null );
-  }, [ formValidation ] )
+  }, [ formValidation ] );
 
   const onInputChange = ({ target }) => {
     const { name, value } = target;

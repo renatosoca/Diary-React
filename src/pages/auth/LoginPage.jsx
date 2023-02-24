@@ -13,7 +13,7 @@ export const LoginPage = () => {
 
   const { status } = useSelector( state => state.auth );
 
-  const { email, password, onInputChange, formState } = useForm({
+  const { email, password, onInputChange } = useForm({
     email: 'correo@correo.com',
     password: '123456',
   });
