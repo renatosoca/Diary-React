@@ -1,11 +1,19 @@
+import { useMemo, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Grid, Typography, TextField, Button, Link } from '@mui/material';
+import { Grid, Typography, TextField, Button, Link, Alert } from '@mui/material';
+
 import { AuthLayout } from '../../layout';
 import { useForm } from '../../hooks';
+import { startCreateUser } from '../../store/auth';
 
 export const RegisterPage = () => {
+
+  const dispatch = useDispatch();
+  const { errorMessage, status } = useSelector( state => state.auth );
+  const isCheckingAuthentication = useMemo( () => status === 'checking', [ status ] );
+
   const [ formSubmitted, setFormSubmitted ] = useState( false )
 
   const formData = {
@@ -20,11 +28,14 @@ export const RegisterPage = () => {
     displayName: [ (value) => value.length > 2, 'El nombre debe tener al menos 3 caracteres.' ],
   };
 
-  const { displayName, email, password, onInputChange, isFormValid, displayNameValid, emailValid, passwordValid } = useForm( formData, formValidations );
+  const { formState, displayName, email, password, onInputChange, isFormValid, displayNameValid, emailValid, passwordValid } = useForm( formData, formValidations );
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormSubmitted( true );
+    if ( !isFormValid ) return;
+    
+    dispatch( startCreateUser( formState ) );
   }
 
   return (
@@ -75,8 +86,15 @@ export const RegisterPage = () => {
           </Grid>
 
           <Grid container spacing={2} sx={{ mb:2, mt: 1 }} >
+            <Grid item xs={ 12 } display={ !!errorMessage ? '' : 'none' } >
+              <Alert severity='error' >
+                { errorMessage }
+              </Alert>
+            </Grid>
+
             <Grid item xs={ 12 } >
               <Button 
+                disabled={ isCheckingAuthentication }
                 type='submit'
                 variant='contained' 
                 fullWidth 

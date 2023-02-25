@@ -11,17 +11,17 @@ import { checkingAuthenticate, startGoogleLogin } from '../../store/auth';
 
 export const LoginPage = () => {
 
+  const dispach = useDispatch();
   const { status } = useSelector( state => state.auth );
 
   const { email, password, onInputChange } = useForm({
     email: 'correo@correo.com',
     password: '123456',
   });
-  const dispach = useDispatch();
 
   const isAuthenticating = useMemo( () => status === 'checking', [status] );
 
-  const handleSubmit = (e) => {
+  const handleEmailPasswordLogin = (e) => {
     e.preventDefault();
     dispach( checkingAuthenticate() );
   }
@@ -32,7 +32,7 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title='Login' >
-      <form onSubmit={ handleSubmit }>
+      <form onSubmit={ handleEmailPasswordLogin }>
         <Grid container>
           <Grid item xs={12} sx={{ mb: 2 }}>
             <TextField 
