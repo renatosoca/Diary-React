@@ -21,7 +21,6 @@ export const RegisterPage = () => {
     password: '',
     displayName: '',
   };
-
   const formValidations = {
     email: [ (value) => value.includes('@'), 'Tiene que ser un email valido.' ],
     password: [ (value) => value.length > 5, 'La contraseña debe tener al menos 6 caracteres.' ],

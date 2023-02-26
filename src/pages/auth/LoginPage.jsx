@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,20 +10,29 @@ import { useForm } from '../../hooks';
 import { startGoogleLogin, startLoginEmailPassword } from '../../store/auth';
 
 export const LoginPage = () => {
+  const [ formSubmitted, setFormSubmitted ] = useState( false );
 
   const dispach = useDispatch();
   const { status, errorMessage } = useSelector( state => state.auth );
-  
-  const { formState, email, password, onInputChange } = useForm({
+
+  const formData = {
     email: '',
     password: '',
-  });
-
+  }
+  const formValidations = {
+    email: [ (value) => value.includes('@'), 'Tiene que ser un email válido.' ],
+    password: [ (value) => value.length > 5, 'La contraseña debe tener al menos 6 caracteres.' ]
+  };
+  
+  const { formState, email, password, onInputChange, isFormValid, emailValid, passwordValid } = useForm( formData, formValidations );
+  
   const isAuthenticating = useMemo( () => status === 'checking', [status] );
 
-  const handleEmailPasswordLogin = (e) => {
+  const handleSubmitEmailPasswordLogin = (e) => {
     e.preventDefault();
+    setFormSubmitted( true );
     
+    if ( !isFormValid ) return;
     dispach( startLoginEmailPassword( formState ) );
   }
 
@@ -33,7 +42,7 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title='Login' >
-      <form onSubmit={ handleEmailPasswordLogin }>
+      <form onSubmit={ handleSubmitEmailPasswordLogin } >
         <Grid container>
           <Grid item xs={12} sx={{ mb: 2 }}>
             <TextField 
@@ -44,6 +53,8 @@ export const LoginPage = () => {
               name='email'
               value={ email }
               onChange={ onInputChange }
+              error = { !!emailValid && formSubmitted }
+              helperText = { formSubmitted && emailValid }
             />
           </Grid>
           
@@ -56,6 +67,8 @@ export const LoginPage = () => {
               name='password'
               value={ password }
               onChange={ onInputChange }
+              error = { !!passwordValid && formSubmitted }
+              helperText = { formSubmitted && passwordValid }
             />
           </Grid>
 

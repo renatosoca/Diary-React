@@ -47,9 +47,6 @@ export const registerUser = async ({ email, password, displayName }) => {
       photoURL,
     }
   } catch (error) {
-    
-    console.log(error.code)
-    console.log(error.message)
     return {
       ok: false,
       errorMessage: error.message
@@ -70,7 +67,6 @@ export const signInWithEmailPassword = async ({ email, password }) => {
       photoURL,
     }
   } catch (error) {
-    console.log(error.code)
     return {
       ok: false,
       errorMessage: error.code

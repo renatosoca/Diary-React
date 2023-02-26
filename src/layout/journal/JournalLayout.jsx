@@ -19,8 +19,8 @@ export const JournalLayout = ({ children }) => {
       <Box
         components='main'
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        className='animate__animated animate__fadeIn'
       >
-
         <Toolbar />
 
         { !uid && <Navigate to='/auth/login' /> }
