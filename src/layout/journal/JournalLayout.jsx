@@ -1,11 +1,13 @@
-import { Box, Toolbar } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
+import { Box, Toolbar } from '@mui/material';
 import { Navbar, SideBar } from '../../components';
 
 const drawerWidth = 240;
 
 export const JournalLayout = ({ children }) => {
-  
+  const { uid } = useSelector( state => state.auth );
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -20,6 +22,8 @@ export const JournalLayout = ({ children }) => {
       >
 
         <Toolbar />
+
+        { !uid && <Navigate to='/auth/login' /> }
 
         { children }
 

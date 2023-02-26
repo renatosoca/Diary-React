@@ -13,10 +13,10 @@ export const LoginPage = () => {
 
   const dispach = useDispatch();
   const { status, errorMessage } = useSelector( state => state.auth );
-
+  
   const { formState, email, password, onInputChange } = useForm({
-    email: 'correo@correo.com',
-    password: '123456',
+    email: '',
+    password: '',
   });
 
   const isAuthenticating = useMemo( () => status === 'checking', [status] );
