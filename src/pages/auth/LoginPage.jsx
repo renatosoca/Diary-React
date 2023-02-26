@@ -3,18 +3,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Google } from '@mui/icons-material';
-import { Grid, Typography, TextField, Button, Link } from '@mui/material';
+import { Grid, Typography, TextField, Button, Link, Alert } from '@mui/material';
 
 import { AuthLayout } from '../../layout';
 import { useForm } from '../../hooks';
-import { checkingAuthenticate, startGoogleLogin } from '../../store/auth';
+import { startGoogleLogin, startLoginEmailPassword } from '../../store/auth';
 
 export const LoginPage = () => {
 
   const dispach = useDispatch();
-  const { status } = useSelector( state => state.auth );
+  const { status, errorMessage } = useSelector( state => state.auth );
 
-  const { email, password, onInputChange } = useForm({
+  const { formState, email, password, onInputChange } = useForm({
     email: 'correo@correo.com',
     password: '123456',
   });
@@ -23,7 +23,8 @@ export const LoginPage = () => {
 
   const handleEmailPasswordLogin = (e) => {
     e.preventDefault();
-    dispach( checkingAuthenticate() );
+    
+    dispach( startLoginEmailPassword( formState ) );
   }
 
   const handleGoogleLogin = () => {
@@ -59,6 +60,12 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container spacing={2} sx={{ mb:2, mt: 1 }} >
+            <Grid item xs={ 12 } display={ !!errorMessage ? '' : 'none' } >
+              <Alert severity='error' >
+                { errorMessage }
+              </Alert>
+            </Grid>
+
             <Grid item xs={ 12 } md={ 6 } >
               <Button
                 disabled={ isAuthenticating }
