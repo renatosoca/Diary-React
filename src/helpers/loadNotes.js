@@ -10,7 +10,7 @@ export const loadNotes = async ( uid = '' ) => {
   
   let notes = [];
   docs.forEach( doc => {
-    notes = [...notes, { id: doc.id, ...doc.data() }]
+    notes = [ { id: doc.id, ...doc.data() }, ...notes];
   } );
   
   return notes;
