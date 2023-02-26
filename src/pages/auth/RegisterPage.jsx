@@ -7,6 +7,11 @@ import { Grid, Typography, TextField, Button, Link, Alert } from '@mui/material'
 import { AuthLayout } from '../../layout';
 import { useForm } from '../../hooks';
 import { startCreateUser } from '../../store/auth';
+const formData = {
+  email: '',
+  password: '',
+  displayName: '',
+};
 
 export const RegisterPage = () => {
 
@@ -16,11 +21,6 @@ export const RegisterPage = () => {
 
   const [ formSubmitted, setFormSubmitted ] = useState( false );
 
-  const formData = {
-    email: '',
-    password: '',
-    displayName: '',
-  };
   const formValidations = {
     email: [ (value) => value.includes('@'), 'Tiene que ser un email valido.' ],
     password: [ (value) => value.length > 5, 'La contraseña debe tener al menos 6 caracteres.' ],

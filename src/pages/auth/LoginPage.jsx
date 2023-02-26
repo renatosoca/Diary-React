@@ -9,16 +9,17 @@ import { AuthLayout } from '../../layout';
 import { useForm } from '../../hooks';
 import { startGoogleLogin, startLoginEmailPassword } from '../../store/auth';
 
+const formData = {
+  email: '',
+  password: '',
+}
+
 export const LoginPage = () => {
   const [ formSubmitted, setFormSubmitted ] = useState( false );
 
   const dispach = useDispatch();
   const { status, errorMessage } = useSelector( state => state.auth );
 
-  const formData = {
-    email: '',
-    password: '',
-  }
   const formValidations = {
     email: [ (value) => value.includes('@'), 'Tiene que ser un email válido.' ],
     password: [ (value) => value.length > 5, 'La contraseña debe tener al menos 6 caracteres.' ]
