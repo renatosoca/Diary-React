@@ -69,7 +69,7 @@ export const startSaveImages = ( files = [] ) => {
 
 export const startDeleteNote = () => {
   return async (dispatch, getState) => {
-    /* dispatch( setSaving() ); */
+    dispatch( setSaving() );
 
     const { uid } = getState().auth;
     if ( !uid ) throw new Error('uid is required');
