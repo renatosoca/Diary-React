@@ -1,8 +1,8 @@
-import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import { firebaseDB } from '../../firebase/config';
-import { loadNotes } from '../../helpers';
+import { fileSave, loadNotes } from '../../helpers';
 
-import { addNewEmptyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote } from './';
+import { addNewEmptyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote, setImagesToActiveNotes, deleteNoteById } from './';
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
@@ -13,7 +13,8 @@ export const startNewNote = () => {
     const newNote = {
       title: '',
       body: '',
-      date: new Date().getTime()
+      date: new Date().getTime(),
+      imageUrls: [],
     }
 
     const newDoc = await addDoc(collection( firebaseDB, `${uid}/journal/notes` ), newNote);
@@ -50,5 +51,33 @@ export const startSaveNote = () => {
     await setDoc(doc( firebaseDB, `${uid}/journal/notes/${ note.id }` ), noteToFirestore, { merge: true } );
 
     dispatch( updateNote( note ) );
+  }
+}
+
+export const startSaveImages = ( files = [] ) => {
+  return async (dispatch, getState) => {
+    dispatch( setSaving() );
+
+    const { uid } = getState().auth;
+    if ( !uid ) throw new Error('uid is required');
+
+    const imagesUrl = await Promise.all( [...files].map( fileSave ) );
+    
+    dispatch( setImagesToActiveNotes( imagesUrl ) );
+  }
+}
+
+export const startDeleteNote = () => {
+  return async (dispatch, getState) => {
+    /* dispatch( setSaving() ); */
+
+    const { uid } = getState().auth;
+    if ( !uid ) throw new Error('uid is required');
+    const { active:note } = getState().journal;
+    if ( !note ) throw new Error('note is required');
+ 
+    await deleteDoc( doc( firebaseDB, `${ uid }/journal/notes/${ note.id }` ) );
+
+    dispatch( deleteNoteById( note.id ) );
   }
 }

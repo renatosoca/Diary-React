@@ -1,19 +1,23 @@
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 
-export const ImageGallery = () => {
+export const ImageGallery = ({ images }) => {
+
   return (
-    <ImageList sx={{ width: '100%', height: 450 }} cols={3}>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
+    <ImageList 
+      sx={{ width: '100%', height: 450 }} 
+      cols={4}
+    >
+      {images.map(( url ) => (
+        <ImageListItem key={ url }>
           <img
-            src={`${item.img}?w=248&fit=crop&auto=format`}
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={item.title}
+            src={ url }
+            srcSet={ url }
+            alt={ url }
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.title}
-            subtitle={<span>by: {item.author}</span>}
+            title='hola'
+            subtitle={<span>by: renato</span>}
             position="below"
           />
         </ImageListItem>

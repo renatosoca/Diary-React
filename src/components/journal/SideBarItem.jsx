@@ -6,6 +6,7 @@ import { TurnedInNotOutlined } from '@mui/icons-material';
 import { setActiveNote } from '../../store';
 
 export const SideBarItem = ({ title = '', body, id, date, imageUrls = [] }) => {
+  
   const newTitle = useMemo(() => {
     return title.length > 15 ? `${title.substring(0, 15)}...` : title;
   }, [ title ]);

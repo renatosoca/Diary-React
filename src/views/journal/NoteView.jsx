@@ -1,15 +1,15 @@
 import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Grid, Typography, TextField } from '@mui/material';
+import { Grid, Typography, TextField, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab'
-import { SaveOutlined } from '@mui/icons-material';
+import { SaveOutlined, PhotoCamera, DeleteForever } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css'
 
 import { ImageGallery } from '../../components';
 import { useForm } from '../../hooks';
-import { setActiveNote, startSaveNote } from '../../store';
+import { setActiveNote, startDeleteNote, startSaveImages, startSaveNote } from '../../store';
 
 export const NoteView = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,13 @@ export const NoteView = () => {
   }
 
   const handleFilesSaved = ({ target }) => {
-    console.log(target.value)
+    if ( target.files === 0 ) return;
+    
+    dispatch( startSaveImages( target.files ) );
+  }
+
+  const handleDeleteNote = () => {
+    dispatch( startDeleteNote() );
   }
   
   return (
@@ -50,15 +56,27 @@ export const NoteView = () => {
         <Typography fontSize={39} fontWeight='light' >{ dateString }</Typography>
       </Grid>
 
-      <Grid item >
+      <Grid item sx={{ mb : 2 }}>
+        <Button 
+          disabled={ isSaving }
+          variant="contained" 
+          component="label" 
+          onChange={ handleFilesSaved }
+        >
+          Subir Imagenes
+          <PhotoCamera sx={{ ml: 1 }} />
+          <input hidden accept="image/*" multiple type="file" />
+        </Button>
+
         <LoadingButton
-          size="small"
+          size="medium"
           color="primary"
           onClick={handleSaveNote}
           loading={isSaving}
           loadingPosition="start"
           startIcon={<SaveOutlined />}
           variant="contained"
+          sx={{ ml: 1 }}
         >
           <span>Guardar</span>
         </LoadingButton>
@@ -91,7 +109,23 @@ export const NoteView = () => {
         />
       </Grid>
 
-      <ImageGallery />
+      <Grid
+        container
+        justifyContent='end'
+        sx={{ mt: 1 }}
+      >
+        <Button 
+          color='error'
+          disabled={ isSaving }
+          variant="contained" 
+          onClick={ handleDeleteNote }
+        >
+          Eliminar Nota
+          <DeleteForever sx={{ ml: 1 }} />
+        </Button>
+      </Grid>
+
+      <ImageGallery images={ note.imageUrls } />
     </Grid>
   )
 }
