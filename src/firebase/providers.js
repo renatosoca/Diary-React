@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect, updateProfile } from 'firebase/auth';
 import { firebaseAuth } from './config';
 
 const googleProvider = new GoogleAuthProvider();
@@ -8,7 +8,7 @@ googleProvider.setCustomParameters({
 
 export const singInWidthGoogle = async () => {
   try {
-    const result = await signInWithPopup( firebaseAuth , googleProvider);
+    const result = await signInWithRedirect( firebaseAuth , googleProvider);
     /* const credentials = GoogleAuthProvider.credentialFromResult(result); */
     const { uid, displayName, email, photoURL } = result.user;
 
