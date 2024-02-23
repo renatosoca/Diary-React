@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Drawer, Toolbar, Typography, Divider, List, ListItem, Skeleton, IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks';
 import { SidebarItem } from '.';
@@ -8,6 +8,7 @@ import { setOpenSidebar } from '@/store';
 const md = '900px';
 
 export const SideBar = ({ drawerWidth = '15rem' }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const menuListRef = useRef<HTMLUListElement | null>(null);
   const menuBackDropRef = useRef<HTMLLIElement | null>(null);
 
@@ -42,20 +43,15 @@ export const SideBar = ({ drawerWidth = '15rem' }) => {
   const handleCloseSidebar = () => dispatch(setOpenSidebar(false));
 
   const handleResize = () => {
-    if (window.innerWidth <= parseInt(md, 10)) {
-      dispatch(setOpenSidebar(false));
-      return;
-    }
-    if (window.innerWidth >= parseInt(md, 10)) {
-      dispatch(setOpenSidebar(true));
-    }
+    setIsMobile(window.innerWidth < parseInt(md, 10));
   };
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize, { capture: true });
+  useLayoutEffect(() => {
+    handleResize();
 
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize, { capture: true });
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -72,12 +68,12 @@ export const SideBar = ({ drawerWidth = '15rem' }) => {
         item.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  }, [notes, isOpenSidebar]);
+  }, [notes, isMobile]);
 
   return (
     <>
       <Drawer
-        variant={isOpenSidebar ? 'permanent' : 'temporary'}
+        variant={isMobile ? 'temporary' : 'permanent'}
         open={isOpenSidebar}
         onClose={handleCloseSidebar}
         sx={{ display: { xs: 'block' }, width: drawerWidth, '& .MuiDrawer-paper': { width: drawerWidth } }}
@@ -94,7 +90,9 @@ export const SideBar = ({ drawerWidth = '15rem' }) => {
             Diary App
           </Typography>
 
-          <IconButton onClick={handleCloseSidebar}>{ICONS.CLOSE}</IconButton>
+          <IconButton sx={{ display: { md: 'none' } }} onClick={handleCloseSidebar}>
+            {ICONS.CLOSE}
+          </IconButton>
         </Toolbar>
 
         <Divider />

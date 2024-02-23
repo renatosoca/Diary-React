@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo } from 'react';
-import { Grid, Typography, Button, Box } from '@mui/material';
+import { Grid, Typography, Button, Box, Stack } from '@mui/material';
 import { setActiveNote, startDeleteNote, startSaveImages, startUpdateNote } from '@/store';
 import { INote } from '@/domain/entities';
 import { useAppDispatch, useAppSelector, useHandleForm } from '@/shared/hooks';
@@ -53,12 +53,12 @@ export const NoteView = () => {
   return (
     <Grid container direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
       <Grid container justifyContent={'space-between'} alignItems={'center'} pb={'1rem'}>
-        <Grid item display={'flex'} alignItems={'center'} direction={'row'} gap={'.5rem'}>
+        <Stack display={'flex'} alignItems={'center'} direction={'row'} gap={'.5rem'}>
           <Box sx={{ fontSize: '1.5rem' }}>{ICONS.CALENDAR}</Box>
-          <Typography component={'h3'} fontSize={'1.8rem'} fontWeight="light">
+          <Typography component={'h3'} sx={{ fontSize: { md: '1.2rem' } }} fontWeight="light">
             {dateString}
           </Typography>
-        </Grid>
+        </Stack>
 
         <Grid item>
           <Button

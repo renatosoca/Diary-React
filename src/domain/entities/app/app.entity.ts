@@ -3,5 +3,5 @@ export interface IApp {
 }
 
 export const appInitialState: IApp = {
-  isOpenSidebar: true,
+  isOpenSidebar: false,
 };

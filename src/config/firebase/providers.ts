@@ -19,6 +19,9 @@ const facebookProvider = new FacebookAuthProvider();
 googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
+facebookProvider.setCustomParameters({
+  prompt: 'select_account',
+});
 
 export const singInWithGoogle = async () => {
   try {

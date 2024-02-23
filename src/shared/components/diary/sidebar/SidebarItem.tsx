@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react';
 import { Grid, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { INote } from '@/domain/entities';
 import { useAppDispatch } from '@/shared/hooks';
-import { setActiveNote } from '@/store';
+import { setActiveNote, setOpenSidebar } from '@/store';
 import { ICONS } from '@/shared/assets';
 
 interface SidebarItemProps {
@@ -22,6 +22,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({ note }) => {
 
   const handleShowNote = () => {
     dispatch(setActiveNote(note));
+    dispatch(setOpenSidebar(false));
   };
 
   return (
