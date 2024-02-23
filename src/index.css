@@ -1,13 +1,68 @@
-.box-shadow {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
-  background-color: rgb(32, 38, 40);
-  width: .5rem;
+.auth__text::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 0.01rem;
+  background-color: #000;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgb(82, 119, 176);
-  border-radius: 1rem;
+/* MODAL */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  padding: 32px;
+  border-radius: 10px;
+}
+
+.modal__crud {
+  max-width: 900px;
+  max-height: 90%;
+}
+
+.modal__attachment {
+  max-width: 580px;
+  max-height: 90%;
+}
+
+.modal__alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 459px;
+  box-shadow: 24px;
+  padding: 32px;
+  border-radius: 10px;
+}
+
+.modal__scroll {
+  overflow-y: auto;
 }
